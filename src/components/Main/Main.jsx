@@ -1,111 +1,80 @@
 import { useState } from "react";
-
+import { useContext } from "react";
 import Popup from "./components/Popup/Popup";
 import NewCard from "./components/Popup/NewCard/NewCard";
 import EditProfile from "./components/Popup/EditProfile/EditProfile";
 import EditAvatar from "./components/Popup/EditAvatar/EditAvatar";
 import Card from "./components/card/Card";
+import CurrentUserContext from "../Contexts/CurrentUserContext";
 
-const cards = [
-  {
-    isLiked: false,
-    _id: "1",
-    name: "Yosemite Valley",
-    link: "./images/Yosemite.jpg",
-  },
-  {
-    isLiked: false,
-    _id: "2",
-    name: "Lake Louise",
-    link: "./images/louise.png",
-  },
-  {
-    isLiked: false,
-    _id: "3",
-    name: "Latemar",
-    link: "./images/latemar.png",
-  },
-  {
-    isLiked: false,
-    _id: "4",
-    name: "Vanois",
-    link: "./images/vanois.png",
-  },
-  {
-    isLiked: false,
-    _id: "5",
-    name: "Montañas Calvas",
-    link: "./images/calvas.png",
-  },
-   {
-    isLiked: false,
-    _id: "6",
-    name: "Di Braies",
-    link: "./images/di braies.png",
-  },
-];
+function Main({
+  cards,
+  onCardLike,
+  onCardDelete,
+  onAddPlaceSubmit,
+  onOpenPopup,
+  onClosePopup,
+  popup,
+}) {
+  const { currentUser } = useContext(CurrentUserContext);
 
-function Main() {
-  const [popup, setPopup] = useState(null);
-
-  const newCardPopup = { title: "Nuevo lugar", children: <NewCard /> };
-  const editProfilePopup = { title: "Editar perfil", children: <EditProfile /> };
-  const editAvatarPopup = { title: "Cambiar avatar", children: <EditAvatar /> };
-
-  function handleOpenPopup(popup) {
-    setPopup(popup);
-  }
-
-  function handleClosePopup() {
-    setPopup(null);
-  }
+  const newCardPopup = {
+    title: "Nuevo lugar",
+    children: <NewCard onAddPlaceSubmit={onAddPlaceSubmit} />,
+  };
+  const editProfilePopup = {
+    title: "Editar perfil",
+    children: <EditProfile />,
+  };
+  const editAvatarPopup = {
+    title: "Cambiar avatar",
+    children: <EditAvatar />,
+  };
 
   return (
     <main className="main">
       <div className="main__profile">
         <div className="main__content-image">
           <img
-            src="/images/francisco image.jpg"
+            src={currentUser.avatar}
             alt="profile"
             className="main__profile-image"
-            onClick={() => handleOpenPopup(editAvatarPopup)}
-            style={{ cursor: "pointer" }}
+            onClick={() => onOpenPopup(editAvatarPopup)}
           />
         </div>
 
         <div className="main__content-paragraph">
           <p className="main__paragraph main__paragraph_name">
-            Francisco Lomm
+            {currentUser.name}
           </p>
           <p className="main__paragraph main__paragraph_about">
-            Estudiante
+            {currentUser.about}
           </p>
           <button
-            type="button"
             className="main__button main__button_edit"
-            onClick={() => handleOpenPopup(editProfilePopup)}
-          >
-            &#x1F58C;
-          </button>
+            onClick={() => onOpenPopup(editProfilePopup)}
+          >Edit info</button>
         </div>
 
         <button
-          type="button"
           className="main__button main__button_add"
-          onClick={() => handleOpenPopup(newCardPopup)}
-        >
-          &#x1F7A3;
-        </button>
+          onClick={() => onOpenPopup(newCardPopup)}
+        > + </button>
       </div>
 
       <div className="main__gallery">
-        {cards.map((card) => (
-          <Card key={card._id} card={card} />
+      {cards.map((card) => (
+          <Card
+            key={card._id}
+            card={card}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+          />
         ))}
       </div>
 
       {popup && (
-        <Popup onClose={handleClosePopup} title={popup.title}>
+        <Popup onClose={onClosePopup} title={popup.title}>
           {popup.children}
         </Popup>
       )}
@@ -114,5 +83,4 @@ function Main() {
 }
 
 export default Main;
-
 

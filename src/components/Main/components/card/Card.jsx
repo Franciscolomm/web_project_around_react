@@ -1,30 +1,35 @@
-export default function Card(props) {
-  const { name, link, isLiked } = props.card;
+import { useContext } from "react";
+import CurrentUserContext from "../../../Contexts/CurrentUserContext";
+
+export default function Card({ card, onCardLike, onCardDelete }) {
+  const { currentUser } = useContext(CurrentUserContext);
+
+  // const isLiked = card.likes.some((u) => u._id === currentUser._id);
+  const isOwn = card.owner._id === currentUser._id;
+
+  const cardLikeButtonClassName = `main__button main__button_like ${
+    card.isLiked ? "main__button_like_active" : ""
+  }`;
 
   return (
     <div className="main__gallery-card">
-      <img
-        className="main__gallery-image"
-        src={link}
-        alt={name}
-      />
+      <img className="main__gallery-image" src={card.link} alt={card.name} />
 
-      <button
-        type="button"
-        className="main__button main__button_trash"
-      ></button>
+      {isOwn && (
+        <button
+          className="main__button main__button_trash"
+          onClick={() => onCardDelete(card)}
+        ></button>
+      )}
 
       <div className="main__gallery-content">
-        <p className="main__gallery-paragraph">{name}</p>
+        <p className="main__gallery-paragraph">{card.name}</p>
 
         <button
-          type="button"
-          className={`main__button main__button_like ${
-            isLiked ? "main__button_like_active" : ""
-          }`}
+          className={cardLikeButtonClassName}
+          // onClick={() => onCardLike(card)}
         ></button>
       </div>
     </div>
   );
 }
-
