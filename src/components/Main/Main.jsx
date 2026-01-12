@@ -53,7 +53,7 @@ function Main({
           <button
             className="main__button main__button_edit"
             onClick={() => onOpenPopup(editProfilePopup)}
-          >Edit info</button>
+          ></button>
         </div>
 
         <button
