@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import Header from "./header/header.jsx";
 import Main from "./Main/Main.jsx";
 import Footer from "./footer/Footer.jsx";
-import api from "./Utils/Api.js";
-import CurrentUserContext from "./Contexts/CurrentUserContext.js";
+import api from "../utils/Api.js";
+import CurrentUserContext from "../contexts/CurrentUserContext.js";
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
