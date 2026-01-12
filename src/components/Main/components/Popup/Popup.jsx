@@ -2,11 +2,12 @@ export default function Popup(props) {
   const { onClose, title, children } = props;
 
   return (
-    <div className="popup">
+    <div className="popup" onClick={onClose}>
       <div
         className={`popup__container ${
           !title ? "popup__container_content_image" : ""
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"

@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { useContext } from "react";
 import Popup from "./components/Popup/Popup";
 import NewCard from "./components/Popup/NewCard/NewCard";
 import EditProfile from "./components/Popup/EditProfile/EditProfile";
 import EditAvatar from "./components/Popup/EditAvatar/EditAvatar";
+import ImagePopup from "./components/Popup/ImagePopup/ImagePopup";
 import Card from "./components/card/Card";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -59,16 +59,19 @@ function Main({
         <button
           className="main__button main__button_add"
           onClick={() => onOpenPopup(newCardPopup)}
-        > + </button>
+        >
+          +
+        </button>
       </div>
 
       <div className="main__gallery">
-      {cards.map((card) => (
+        {cards.map((card) => (
           <Card
             key={card._id}
             card={card}
             onCardLike={onCardLike}
             onCardDelete={onCardDelete}
+            onOpenPopup={onOpenPopup}
           />
         ))}
       </div>
